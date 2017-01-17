@@ -9,17 +9,18 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet var imageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         print("Loaded")
+        
         //Steps
         
         //1 Create an Url
-        let url = URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Johann_Sebastian_Bach.jpg/260px-Johann_Sebastian_Bach.jpg")!
+        let url = URL(string: "https://upload.wikimedia.org/wikipedia/en/thumb/4/49/A_R_Rahman_NH7_BLR_2015_1.jpg/800px-A_R_Rahman_NH7_BLR_2015_1.jpg")!
         
         //2 Create a request
         let request = NSMutableURLRequest(url: url)
@@ -41,6 +42,30 @@ class ViewController: UIViewController {
                         
                         self.imageView.image = image;
                         
+                        //get Documents path where we'll save all our documents
+                        
+                        //domain MAsk :- where we are searching for our file
+                        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory , .userDomainMask, true)
+                        
+                        if documentsPath.count > 0 {
+                            
+                            let documentsDirectory = documentsPath[0]
+                            
+                            //Save path :- where we'll store the image
+                            let savePath = documentsDirectory + "/a-r-rahman.jpg"
+                            
+                            //Save Image
+                            do {
+                                
+                                try UIImageJPEGRepresentation(image, 1)!.write(to: URL(fileURLWithPath: savePath))
+                                
+                            } catch {
+                                
+                                //Error writing Image
+                                
+                            }
+                        }
+                        
                     }
                 }
                 
@@ -52,12 +77,12 @@ class ViewController: UIViewController {
         
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
+    
+    
 }
 
